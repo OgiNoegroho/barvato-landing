@@ -1,0 +1,363 @@
+---
+import { contentId } from "../../config/content";
+import Badge from "../ui/Badge.astro";
+import BrowserFrame from "../ui/BrowserFrame.astro";
+import Icon from "../ui/Icon.astro";
+
+const { showcase } = contentId;
+---
+
+<section
+  id="galeri-produk"
+  aria-labelledby="showcase-heading"
+  class="scroll-mt-16 border-b border-stone bg-ivory-light py-16 sm:py-20 lg:py-24"
+>
+  <div class="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
+    <!-- Section Heading -->
+    <div class="mx-auto max-w-2xl text-center">
+      <Badge tone="copper">{showcase.eyebrow}</Badge>
+      <h2
+        id="showcase-heading"
+        class="mt-4 font-serif text-3xl font-normal text-charcoal sm:text-4xl lg:text-[42px] lg:leading-[1.12]"
+      >
+        {showcase.headline}
+      </h2>
+      <p class="mt-4 text-sm leading-relaxed text-muted-text sm:text-base">
+        {showcase.subheadline}
+      </p>
+    </div>
+
+    <!-- Primary Accessible Tab List (6 Modules) -->
+    <div
+      role="tablist"
+      aria-label="Modul operasional aplikasi Barvato"
+      class="mt-10 flex flex-wrap items-center justify-center gap-2 border-b border-stone pb-4"
+    >
+      {
+        showcase.tabs.map((tab, idx) => (
+          <button
+            type="button"
+            role="tab"
+            id={`tab-btn-${tab.id}`}
+            aria-selected={idx === 0 ? "true" : "false"}
+            aria-controls={`panel-${tab.id}`}
+            tabindex={idx === 0 ? 0 : -1}
+            data-showcase-tab={tab.id}
+            class={`rounded-sm border px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer sm:px-4 ${
+              idx === 0
+                ? "border-charcoal bg-charcoal text-ivory-light shadow-subtle"
+                : "border-stone bg-ivory text-charcoal hover:border-copper hover:text-copper"
+            }`}
+          >
+            <span class="mr-1.5 text-[10px] opacity-70">0{idx + 1}</span>
+            {tab.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Tab Panels -->
+    <div class="mt-8">
+      {
+        showcase.tabs.map((tab, idx) => (
+          <div
+            role="tabpanel"
+            id={`panel-${tab.id}`}
+            aria-labelledby={`tab-btn-${tab.id}`}
+            data-showcase-panel={tab.id}
+            class={`transition-opacity duration-200 motion-reduce:transition-none ${
+              idx === 0 ? "block opacity-100" : "hidden opacity-0"
+            }`}
+          >
+            <!-- Module Header, Description & Capability Bullets -->
+            <div class="mb-6 rounded-sm border border-stone bg-ivory p-5 sm:p-6">
+              <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
+                <div class="lg:col-span-5">
+                  <span class="text-[10px] font-bold tracking-widest text-copper uppercase">
+                    {tab.eyebrow}
+                  </span>
+                  <h3 class="mt-1.5 mb-0 font-serif text-2xl font-normal text-charcoal sm:text-[26px]">
+                    {tab.title}
+                  </h3>
+                  <p class="mt-2.5 mb-0 text-xs leading-relaxed text-muted-text sm:text-sm">
+                    {tab.description}
+                  </p>
+                </div>
+
+                <!-- Key Capability Bullet Points -->
+                <div class="lg:col-span-7 lg:border-l lg:border-stone lg:pl-6">
+                  <span class="block text-[11px] font-bold tracking-wider text-charcoal uppercase">
+                    Yang Bisa Kamu Lakukan di Menu Ini
+                  </span>
+                  <ul class="mt-3 grid grid-cols-1 gap-2.5 m-0 p-0 list-none">
+                    {tab.bullets.map((bullet) => (
+                      <li class="flex items-start gap-2.5 text-xs leading-relaxed text-charcoal sm:text-sm">
+                        <span class="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-copper/12 text-copper">
+                          <Icon name="check" size={11} />
+                        </span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Optional Simple Secondary View Switcher -->
+              {tab.secondaryViews && tab.secondaryViews.length > 1 && (
+                <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-stone pt-4">
+                  <span class="text-xs font-medium text-muted-text">
+                    Pilih tampilan layar:
+                  </span>
+                  <div
+                    role="group"
+                    aria-label={`Tampilan layar untuk ${tab.label}`}
+                    class="flex flex-wrap items-center gap-2"
+                  >
+                    {tab.secondaryViews.map((view, vIdx) => (
+                      <button
+                        type="button"
+                        aria-pressed={vIdx === 0 ? "true" : "false"}
+                        data-parent-tab={tab.id}
+                        data-view-btn={view.id}
+                        class={`rounded-sm border px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
+                          vIdx === 0
+                            ? "border-copper bg-copper text-ivory-light"
+                            : "border-stone bg-ivory-light text-charcoal hover:border-copper"
+                        }`}
+                      >
+                        {view.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <!-- Screenshot Frame(s) -->
+            {tab.secondaryViews && tab.secondaryViews.length > 1 ? (
+              <div>
+                {tab.secondaryViews.map((view, vIdx) => (
+                  <div
+                    data-parent-panel={tab.id}
+                    data-view-panel={view.id}
+                    class={vIdx === 0 ? "block" : "hidden"}
+                  >
+                    <BrowserFrame
+                      src={view.image.src}
+                      alt={view.image.alt}
+                      width={view.image.width}
+                      height={view.image.height}
+                      title={view.frameTitle}
+                      caption={view.caption}
+                      loading={idx === 0 && vIdx === 0 ? "eager" : "lazy"}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <BrowserFrame
+                src={tab.desktopImage.src}
+                alt={tab.desktopImage.alt}
+                width={tab.desktopImage.width}
+                height={tab.desktopImage.height}
+                title={`BARVATO — ${tab.eyebrow}`}
+                caption={tab.desktopImage.caption}
+                loading="lazy"
+              />
+            )}
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Mobile Responsive Showcase -->
+    <div class="mt-16 border-t border-stone pt-14">
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-5">
+          <Badge tone="default">BISA DARI DESKTOP &amp; HP</Badge>
+          <h3 class="mt-4 font-serif text-2xl font-normal text-charcoal sm:text-3xl">
+            Tetap Nyaman Dipakai di Komputer Kasir Maupun HP Kamu.
+          </h3>
+          <p class="mt-3.5 text-sm leading-relaxed text-muted-text">
+            Selain tampilan layar lebar buat meja kasir, Barvato juga punya tampilan mobile dengan menu bawah yang praktis. Jadi kamu dan kapster bisa cek omzet, status kursi, dan antrean langsung dari HP.
+          </p>
+          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="rounded-sm border border-stone bg-ivory p-4">
+              <strong class="block text-xs font-bold text-charcoal">
+                Dashboard di HP
+              </strong>
+              <span class="mt-1 block text-xs text-muted-text">
+                Cek pemasukan hari ini, berapa pelanggan yang nunggu, dan kursi mana yang lagi aktif dari mana saja.
+              </span>
+            </div>
+            <div class="rounded-sm border border-stone bg-ivory p-4">
+              <strong class="block text-xs font-bold text-charcoal">
+                Antrean &amp; Booking di HP
+              </strong>
+              <span class="mt-1 block text-xs text-muted-text">
+                Pantau urutan antrean walk-in, lihat siapa yang lagi dilayani, dan selesaikan pembayaran langsung dari HP.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-7">
+          <BrowserFrame
+            src="/images/operations-dashboard-mobile-hidpi.png"
+            alt="Tampilan HP untuk halaman Dashboard Harian Barvato."
+            width={1170}
+            height={2532}
+            variant="mobile"
+            caption="Tampilan Dashboard di HP"
+            loading="lazy"
+          />
+          <BrowserFrame
+            src="/images/calendar-queue-mobile-hidpi.png"
+            alt="Tampilan HP untuk halaman Antrean dan Operasional Barvato."
+            width={1170}
+            height={2532}
+            variant="mobile"
+            caption="Tampilan Antrean & Operasional di HP"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const tabButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-showcase-tab]")
+  );
+  const tabPanels = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-showcase-panel]")
+  );
+  const viewButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-view-btn]")
+  );
+
+  function activateTab(targetId: string, focusButton = false) {
+    tabButtons.forEach((btn) => {
+      const isMatch = btn.dataset.showcaseTab === targetId;
+      btn.setAttribute("aria-selected", String(isMatch));
+      btn.setAttribute("tabindex", isMatch ? "0" : "-1");
+
+      if (isMatch) {
+        btn.classList.remove(
+          "border-stone",
+          "bg-ivory",
+          "text-charcoal",
+          "hover:border-copper",
+          "hover:text-copper"
+        );
+        btn.classList.add(
+          "border-charcoal",
+          "bg-charcoal",
+          "text-ivory-light",
+          "shadow-subtle"
+        );
+        if (focusButton) btn.focus();
+      } else {
+        btn.classList.remove(
+          "border-charcoal",
+          "bg-charcoal",
+          "text-ivory-light",
+          "shadow-subtle"
+        );
+        btn.classList.add(
+          "border-stone",
+          "bg-ivory",
+          "text-charcoal",
+          "hover:border-copper",
+          "hover:text-copper"
+        );
+      }
+    });
+
+    tabPanels.forEach((panel) => {
+      const isMatch = panel.dataset.showcasePanel === targetId;
+      if (isMatch) {
+        panel.classList.remove("hidden", "opacity-0");
+        panel.classList.add("block", "opacity-100");
+      } else {
+        panel.classList.remove("block", "opacity-100");
+        panel.classList.add("hidden", "opacity-0");
+      }
+    });
+  }
+
+  function activateSecondaryView(parentTabId: string, targetViewId: string) {
+    const groupButtons = viewButtons.filter(
+      (btn) => btn.dataset.parentTab === parentTabId
+    );
+    groupButtons.forEach((btn) => {
+      const isMatch = btn.dataset.viewBtn === targetViewId;
+      btn.setAttribute("aria-pressed", String(isMatch));
+      if (isMatch) {
+        btn.classList.remove(
+          "border-stone",
+          "bg-ivory-light",
+          "text-charcoal",
+          "hover:border-copper"
+        );
+        btn.classList.add("border-copper", "bg-copper", "text-ivory-light");
+      } else {
+        btn.classList.remove("border-copper", "bg-copper", "text-ivory-light");
+        btn.classList.add(
+          "border-stone",
+          "bg-ivory-light",
+          "text-charcoal",
+          "hover:border-copper"
+        );
+      }
+    });
+
+    const viewPanels = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        `[data-parent-panel="${parentTabId}"]`
+      )
+    );
+    viewPanels.forEach((vPanel) => {
+      const isMatch = vPanel.dataset.viewPanel === targetViewId;
+      vPanel.classList.toggle("hidden", !isMatch);
+      vPanel.classList.toggle("block", isMatch);
+    });
+  }
+
+  tabButtons.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.dataset.showcaseTab;
+      if (targetId) activateTab(targetId);
+    });
+
+    btn.addEventListener("keydown", (event) => {
+      let nextIndex: number | null = null;
+      if (event.key === "ArrowRight") {
+        nextIndex = (index + 1) % tabButtons.length;
+      } else if (event.key === "ArrowLeft") {
+        nextIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = tabButtons.length - 1;
+      }
+
+      if (nextIndex !== null) {
+        event.preventDefault();
+        const nextTarget = tabButtons[nextIndex]?.dataset.showcaseTab;
+        if (nextTarget) activateTab(nextTarget, true);
+      }
+    });
+  });
+
+  viewButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const parentTabId = btn.dataset.parentTab;
+      const targetViewId = btn.dataset.viewBtn;
+      if (parentTabId && targetViewId) {
+        activateSecondaryView(parentTabId, targetViewId);
+      }
+    });
+  });
+</script>

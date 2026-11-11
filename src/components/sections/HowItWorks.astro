@@ -1,0 +1,55 @@
+---
+import { contentId } from "../../config/content";
+import Badge from "../ui/Badge.astro";
+import Card from "../ui/Card.astro";
+
+const { howItWorks } = contentId;
+---
+
+<section
+  id="cara-kerja"
+  aria-labelledby="how-it-works-heading"
+  class="scroll-mt-16 border-b border-stone bg-ivory-warm/50 py-16 sm:py-20 lg:py-24"
+>
+  <div class="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <Badge tone="default">{howItWorks.eyebrow}</Badge>
+      <h2
+        id="how-it-works-heading"
+        class="mt-4 font-serif text-3xl font-normal text-charcoal sm:text-4xl lg:text-[42px] lg:leading-[1.12]"
+      >
+        {howItWorks.headline}
+      </h2>
+      <p class="mt-4 text-sm leading-relaxed text-muted-text sm:text-base">
+        {howItWorks.subheadline}
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
+      {
+        howItWorks.steps.map((item) => (
+          <Card variant="default" class="flex flex-col justify-between p-6 sm:p-7">
+            <div>
+              <div class="flex items-center justify-between border-b border-stone pb-4">
+                <span class="font-serif text-3xl font-normal text-copper">
+                  {item.step}
+                </span>
+                <span class="rounded-xs bg-ivory-warm px-2 py-1 text-[10px] font-bold tracking-wider text-charcoal uppercase">
+                  {item.detail}
+                </span>
+              </div>
+
+              <h3 class="mt-5 font-serif text-xl font-normal text-charcoal">
+                {item.title}
+              </h3>
+
+              <p class="mt-2.5 mb-0 text-xs leading-relaxed text-muted-text sm:text-sm">
+                {item.description}
+              </p>
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,81 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption?: string;
+  title?: string;
+  loading?: "eager" | "lazy";
+  fetchpriority?: "high" | "low" | "auto";
+  variant?: "desktop" | "mobile";
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  caption,
+  title = "BARVATO — APLIKASI MANAJEMEN BARBERSHOP",
+  loading = "lazy",
+  fetchpriority = "auto",
+  variant = "desktop",
+  class: className = "",
+} = Astro.props;
+---
+
+<figure class={`m-0 ${className}`.trim()}>
+  {
+    variant === "desktop" ? (
+      <div class="group overflow-hidden rounded-sm border border-stone bg-ivory-light shadow-card transition-[border-color,box-shadow] duration-200 hover:border-copper/50 hover:shadow-[0_10px_28px_rgba(29,33,31,0.10)]">
+        <div class="flex items-center justify-between border-b border-stone bg-ivory-warm/70 px-3.5 py-2.5">
+          <div class="flex w-10 items-center gap-1.5" aria-hidden="true">
+            <span class="h-2.5 w-2.5 rounded-full bg-stone-muted" />
+            <span class="h-2.5 w-2.5 rounded-full bg-stone-muted" />
+            <span class="h-2.5 w-2.5 rounded-full bg-stone-muted" />
+          </div>
+          <span class="text-[10px] font-semibold tracking-wider text-muted-text uppercase">
+            {title}
+          </span>
+          <div class="w-10" aria-hidden="true" />
+        </div>
+        <div class="bg-ivory">
+          <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            loading={loading}
+            fetchpriority={fetchpriority}
+            decoding="async"
+            class="block h-auto w-full object-contain transition-[opacity,filter] duration-200 group-hover:opacity-95 group-hover:brightness-[1.02]"
+          />
+        </div>
+      </div>
+    ) : (
+      <div class="group mx-auto max-w-[290px] overflow-hidden rounded-xl border-2 border-charcoal bg-charcoal p-1.5 shadow-modal transition-colors duration-200 hover:border-copper/60">
+        <div class="overflow-hidden rounded-lg bg-ivory">
+          <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            loading={loading}
+            decoding="async"
+            class="block h-auto w-full object-contain transition-[opacity,filter] duration-200 group-hover:opacity-95 group-hover:brightness-[1.02]"
+          />
+        </div>
+      </div>
+    )
+  }
+
+  {
+    caption && (
+      <figcaption class="mt-3 text-center text-xs text-muted-text">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>

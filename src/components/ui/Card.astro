@@ -1,0 +1,23 @@
+---
+export type CardVariant = "default" | "elevated" | "warm" | "dark";
+
+interface Props {
+  variant?: CardVariant;
+  class?: string;
+}
+
+const { variant = "default", class: className = "" } = Astro.props;
+
+const variantStyles: Record<CardVariant, string> = {
+  default: "bg-ivory-light border border-stone shadow-subtle text-charcoal",
+  elevated: "bg-ivory-light border border-stone shadow-card text-charcoal",
+  warm: "bg-ivory-warm/70 border border-stone text-charcoal",
+  dark: "bg-charcoal border border-charcoal-muted text-ivory-light shadow-card",
+};
+
+const classes = `rounded-sm p-6 sm:p-8 ${variantStyles[variant]} ${className}`.trim();
+---
+
+<div class={classes}>
+  <slot />
+</div>

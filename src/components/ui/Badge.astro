@@ -1,0 +1,24 @@
+---
+export type BadgeTone = "default" | "copper" | "forest" | "amber" | "charcoal";
+
+interface Props {
+  tone?: BadgeTone;
+  class?: string;
+}
+
+const { tone = "default", class: className = "" } = Astro.props;
+
+const toneStyles: Record<BadgeTone, string> = {
+  default: "bg-ivory-warm text-charcoal border-stone",
+  copper: "bg-copper-soft/75 text-copper border-copper/25",
+  forest: "bg-forest-soft text-forest border-forest/25",
+  amber: "bg-amber-soft text-amber-dark border-amber/25",
+  charcoal: "bg-charcoal text-ivory-light border-charcoal",
+};
+
+const classes = `inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1 text-[11px] font-bold tracking-wider uppercase leading-none ${toneStyles[tone]} ${className}`.trim();
+---
+
+<span class={classes}>
+  <slot />
+</span>

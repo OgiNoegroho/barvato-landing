@@ -1,0 +1,190 @@
+---
+import { siteConfig } from "../../config/site";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+---
+
+<header
+  id="site-navbar"
+  data-navbar-visible="false"
+  class="site-navbar fixed top-0 right-0 left-0 z-50 border-b border-stone bg-ivory-light shadow-subtle"
+>
+  <div class="mx-auto flex h-16 sm:h-[72px] max-w-[1320px] items-center justify-between px-4 sm:px-6 lg:px-8">
+    <!-- Brand Identity -->
+    <a
+      href="#"
+      class="flex items-center gap-3 text-charcoal no-underline transition-opacity hover:opacity-90"
+      aria-label="Barvato — Kembali ke bagian atas"
+    >
+      <span
+        class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-copper font-serif text-xl font-bold text-ivory-light shadow-subtle"
+        aria-hidden="true"
+      >
+        B
+      </span>
+      <div class="flex flex-col">
+        <span class="font-serif text-[21px] leading-none tracking-wide text-charcoal">
+          BARVATO
+        </span>
+        <span class="mt-0.5 text-[9px] font-bold tracking-widest text-muted-text uppercase">
+          Manajemen Barbershop
+        </span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav aria-label="Navigasi utama" class="hidden md:flex md:items-center md:gap-7 lg:gap-8">
+      {
+        siteConfig.navLinks.map((item) => (
+          <a
+            href={item.href}
+            class="text-xs font-semibold text-charcoal/85 no-underline transition-colors hover:text-copper"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- Desktop Actions -->
+    <div class="hidden md:flex md:items-center md:gap-3">
+      <a
+        href={siteConfig.cta.loginUrl}
+        class="px-3 py-2 text-xs font-semibold text-charcoal no-underline transition-colors hover:text-copper"
+      >
+        {siteConfig.cta.loginLabel}
+      </a>
+      <Button href={siteConfig.cta.trialUrl} variant="primary" size="sm">
+        {siteConfig.cta.trialLabel}
+      </Button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+      type="button"
+      id="mobile-menu-toggle"
+      aria-expanded="false"
+      aria-controls="mobile-navigation-drawer"
+      aria-label="Buka menu navigasi"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-stone bg-ivory text-charcoal transition-colors hover:border-copper md:hidden"
+    >
+      <span id="mobile-menu-icon-open">
+        <Icon name="menu" size={18} />
+      </span>
+      <span id="mobile-menu-icon-close" class="hidden">
+        <Icon name="close" size={18} />
+      </span>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div
+    id="mobile-navigation-drawer"
+    class="hidden border-t border-stone bg-ivory-light md:hidden"
+    role="region"
+    aria-label="Menu navigasi seluler"
+  >
+    <div class="mx-auto max-w-[1320px] px-4 py-5 sm:px-6">
+      <nav aria-label="Navigasi seluler" class="flex flex-col divide-y divide-stone/60">
+        {
+          siteConfig.navLinks.map((item) => (
+            <a
+              href={item.href}
+              data-mobile-nav-link
+              class="py-3 text-sm font-semibold text-charcoal no-underline transition-colors hover:text-copper"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="mt-5 flex flex-col gap-2.5 border-t border-stone pt-4">
+        <Button
+          href={siteConfig.cta.loginUrl}
+          variant="outline"
+          size="md"
+          class="w-full justify-center"
+        >
+          {siteConfig.cta.loginLabel}
+        </Button>
+        <Button
+          href={siteConfig.cta.trialUrl}
+          variant="primary"
+          size="md"
+          class="w-full justify-center"
+        >
+          {siteConfig.cta.trialLabel}
+        </Button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const navbar = document.getElementById("site-navbar");
+  const heroSection = document.getElementById("hero-section");
+  const toggleBtn = document.getElementById("mobile-menu-toggle");
+  const drawer = document.getElementById("mobile-navigation-drawer");
+  const iconOpen = document.getElementById("mobile-menu-icon-open");
+  const iconClose = document.getElementById("mobile-menu-icon-close");
+  const mobileLinks = document.querySelectorAll("[data-mobile-nav-link]");
+
+  function setMenuOpen(open: boolean) {
+    if (!toggleBtn || !drawer || !iconOpen || !iconClose) return;
+    toggleBtn.setAttribute("aria-expanded", String(open));
+    toggleBtn.setAttribute("aria-label", open ? "Tutup menu navigasi" : "Buka menu navigasi");
+    drawer.classList.toggle("hidden", !open);
+    iconOpen.classList.toggle("hidden", open);
+    iconClose.classList.toggle("hidden", !open);
+  }
+
+  function updateNavbarVisibility(pastHero: boolean) {
+    if (!navbar) return;
+    const isCurrentlyVisible = navbar.getAttribute("data-navbar-visible") === "true";
+    if (isCurrentlyVisible === pastHero) return;
+    navbar.setAttribute("data-navbar-visible", String(pastHero));
+    if (!pastHero && toggleBtn?.getAttribute("aria-expanded") === "true") {
+      setMenuOpen(false);
+    }
+  }
+
+  if (navbar && heroSection) {
+    const evaluateScroll = () => {
+      const rect = heroSection.getBoundingClientRect();
+      updateNavbarVisibility(rect.bottom <= 88);
+    };
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          updateNavbarVisibility(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+        },
+        { rootMargin: "-88px 0px 0px 0px", threshold: 0 }
+      );
+      observer.observe(heroSection);
+    }
+
+    window.addEventListener("scroll", evaluateScroll, { passive: true });
+    evaluateScroll();
+  } else if (navbar) {
+    updateNavbarVisibility(true);
+  }
+
+  toggleBtn?.addEventListener("click", () => {
+    const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+    setMenuOpen(!isExpanded);
+  });
+
+  mobileLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      setMenuOpen(false);
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && toggleBtn?.getAttribute("aria-expanded") === "true") {
+      setMenuOpen(false);
+      toggleBtn.focus();
+    }
+  });
+</script>

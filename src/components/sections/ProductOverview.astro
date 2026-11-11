@@ -1,0 +1,78 @@
+---
+import { contentId } from "../../config/content";
+import Badge from "../ui/Badge.astro";
+import Card from "../ui/Card.astro";
+import Icon from "../ui/Icon.astro";
+import BrowserFrame from "../ui/BrowserFrame.astro";
+
+const { productOverview } = contentId;
+---
+
+<section
+  id="produk"
+  aria-labelledby="overview-heading"
+  class="scroll-mt-16 border-b border-stone bg-ivory-light py-16 sm:py-20 lg:py-24"
+>
+  <div class="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-6">
+        <Badge tone="default">{productOverview.eyebrow}</Badge>
+        <h2
+          id="overview-heading"
+          class="mt-4 font-serif text-3xl font-normal text-charcoal sm:text-4xl lg:text-[42px] lg:leading-[1.12]"
+        >
+          {productOverview.headline}
+        </h2>
+      </div>
+      <div class="lg:col-span-6">
+        <p class="m-0 text-sm leading-relaxed text-muted-text sm:text-base">
+          {productOverview.description}
+        </p>
+      </div>
+    </div>
+
+    <!-- 4 Operational Centralization Cards -->
+    <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        productOverview.highlights.map((item) => (
+          <Card variant="warm" class="flex flex-col justify-between p-6">
+            <div>
+              <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-sm border border-stone bg-ivory-light text-copper">
+                <Icon name={item.icon} size={18} />
+              </div>
+              <h3 class="m-0 font-serif text-xl font-normal text-charcoal">
+                {item.title}
+              </h3>
+              <p class="mt-2.5 mb-0 text-xs leading-relaxed text-muted-text">
+                {item.description}
+              </p>
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+
+    <!-- Real Application Interface Composition (Desktop + Mobile) -->
+    <div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-9">
+        <BrowserFrame
+          src={productOverview.image.src}
+          alt={productOverview.image.alt}
+          width={productOverview.image.width}
+          height={productOverview.image.height}
+          title="BARVATO — KALENDER BOOKING & ANTREAN WALK-IN"
+        />
+      </div>
+      <div class="lg:col-span-3">
+        <BrowserFrame
+          src={productOverview.mobileImage.src}
+          alt={productOverview.mobileImage.alt}
+          width={productOverview.mobileImage.width}
+          height={productOverview.mobileImage.height}
+          variant="mobile"
+          caption="Bisa dipantau langsung dari HP kamu kapan saja, bahkan pas lagi nggak di toko."
+        />
+      </div>
+    </div>
+  </div>
+</section>

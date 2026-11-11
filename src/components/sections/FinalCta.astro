@@ -1,0 +1,64 @@
+---
+import { contentId } from "../../config/content";
+import { siteConfig } from "../../config/site";
+import Badge from "../ui/Badge.astro";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+const { finalCta } = contentId;
+---
+
+<section
+  id="hubungi-kami"
+  aria-labelledby="final-cta-heading"
+  class="scroll-mt-16 bg-ivory py-16 sm:py-20 lg:py-24"
+>
+  <div class="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl rounded-sm border border-stone bg-ivory-light p-8 text-center shadow-card sm:p-12 lg:p-16">
+      <Badge tone="copper">{finalCta.eyebrow}</Badge>
+
+      <h2
+        id="final-cta-heading"
+        class="mx-auto mt-5 max-w-2xl font-serif text-3xl font-normal text-charcoal sm:text-4xl lg:text-[46px] lg:leading-[1.1]"
+      >
+        {finalCta.headline}
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-text sm:text-base">
+        {finalCta.description}
+      </p>
+
+      <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+        <Button
+          href={siteConfig.cta.contactUrl}
+          variant="primary"
+          size="lg"
+          class="w-full sm:w-auto"
+        >
+          <Icon name="mail" size={16} />
+          <span>{finalCta.primaryCta}</span>
+        </Button>
+
+        <Button
+          href={siteConfig.cta.loginUrl}
+          variant="outline"
+          size="lg"
+          class="w-full sm:w-auto"
+        >
+          <span>{finalCta.loginLinkText}</span>
+          <Icon name="arrow-right" size={16} />
+        </Button>
+      </div>
+
+      <p class="mt-6 mb-0 text-xs text-muted-text">
+        {finalCta.loginPrompt}{" "}
+        <a
+          href={siteConfig.cta.loginUrl}
+          class="font-semibold text-copper no-underline hover:underline"
+        >
+          {siteConfig.cta.loginLabel} di sini
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

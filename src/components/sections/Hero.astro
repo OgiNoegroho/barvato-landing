@@ -1,0 +1,297 @@
+---
+import { contentId } from "../../config/content";
+import { siteConfig } from "../../config/site";
+import Badge from "../ui/Badge.astro";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+const { hero } = contentId;
+---
+
+<section
+  aria-labelledby="hero-heading"
+  id="hero-section"
+  class="relative overflow-hidden border-b border-stone bg-ivory pt-5 pb-16 sm:pt-7 sm:pb-20 lg:pt-8 lg:pb-24"
+>
+  <div class="hero-ambient" aria-hidden="true">
+    <span class="blob-copper"></span>
+    <span class="blob-amber"></span>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
+    <!-- In-Hero Brand Bar (visible while sticky navbar is hidden at top of page) -->
+    <div class="mb-8 flex items-center justify-between gap-2 border-b border-stone/70 pb-4 sm:mb-10 sm:pb-5 lg:mb-14">
+      <a
+        href="#"
+        class="flex shrink-0 items-center gap-2.5 text-charcoal no-underline transition-opacity hover:opacity-90 sm:gap-3"
+        aria-label="Barvato — Beranda"
+      >
+        <span
+          class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-copper font-serif text-xl font-bold text-ivory-light shadow-subtle"
+          aria-hidden="true"
+        >
+          B
+        </span>
+        <div class="flex flex-col">
+          <span class="font-serif text-[20px] leading-none tracking-wide text-charcoal sm:text-[21px]">
+            BARVATO
+          </span>
+          <span class="mt-0.5 text-[9px] font-bold tracking-widest whitespace-nowrap text-muted-text uppercase">
+            Manajemen Barbershop
+          </span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-3 sm:gap-6">
+        <nav aria-label="Tautan cepat hero" class="hidden md:flex md:items-center md:gap-6">
+          {
+            siteConfig.navLinks.slice(0, 4).map((item) => (
+              <a
+                href={item.href}
+                class="text-xs font-semibold text-charcoal/80 no-underline transition-colors hover:text-copper"
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+        <div class="flex items-center gap-1.5 sm:gap-2.5">
+          <a
+            href={siteConfig.cta.loginUrl}
+            class="rounded-xs px-2 py-1.5 text-xs font-semibold whitespace-nowrap text-charcoal no-underline transition-colors hover:text-copper sm:px-2.5"
+          >
+            {siteConfig.cta.loginLabel}
+          </a>
+          <a
+            href={siteConfig.cta.trialUrl}
+            class="inline-flex items-center justify-center rounded-sm border border-copper bg-copper px-2.5 py-1.5 text-[11px] font-semibold whitespace-nowrap text-ivory-light no-underline transition-colors hover:bg-copper-hover sm:px-3.5 sm:text-xs"
+          >
+            {siteConfig.cta.trialLabel}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Split Two-Column Hero Layout -->
+    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8 xl:gap-12">
+      <!-- Left Column: Spacious Editorial Copy & CTAs -->
+      <div class="lg:col-span-5">
+        <div class="hero-reveal" style="--d: 0ms">
+          <Badge tone="copper">{hero.eyebrow}</Badge>
+        </div>
+
+        <h1
+          id="hero-heading"
+          class="hero-reveal mt-5 font-serif text-4xl font-normal tracking-tight text-charcoal sm:text-5xl lg:text-[48px] xl:text-[54px] lg:leading-[1.08]"
+          style="--d: 100ms"
+        >
+          {hero.headline}
+        </h1>
+
+        <p
+          style="--d: 220ms"
+          class="hero-reveal mt-5 max-w-xl text-base leading-relaxed text-muted-text sm:text-lg"
+        >
+          {hero.subheadline}
+        </p>
+
+        <!-- Primary & Secondary CTAs -->
+        <div
+          style="--d: 340ms"
+          class="hero-reveal mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-3.5"
+        >
+          <Button
+            href={siteConfig.cta.trialUrl}
+            variant="primary"
+            size="lg"
+            class="hero-cta w-full sm:w-auto"
+          >
+            <span>{hero.primaryCta}</span>
+            <Icon name="arrow-right" size={16} />
+          </Button>
+
+          <Button
+            href={siteConfig.cta.secondaryHeroUrl}
+            variant="outline"
+            size="lg"
+            class="hero-cta w-full sm:w-auto"
+          >
+            <span>{hero.secondaryCta}</span>
+          </Button>
+        </div>
+
+        <!-- Multi-Device Operational Context Note -->
+        <div
+          style="--d: 440ms"
+          class="hero-reveal mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-stone/70 pt-5 text-xs text-muted-text"
+        >
+          <span class="inline-flex items-center gap-2 font-medium text-charcoal">
+            <span class="h-2 w-2 rounded-full bg-copper" aria-hidden="true"></span>
+            Dashboard Kasir &amp; POS di Desktop
+          </span>
+          <span class="inline-flex items-center gap-2 font-medium text-charcoal">
+            <span class="h-2 w-2 rounded-full bg-forest" aria-hidden="true"></span>
+            Pantau Antrean &amp; Booking dari HP
+          </span>
+        </div>
+      </div>
+
+      <!-- Right Column: Multi-Device Product Showcase (Laptop + Smartphone + Max 2 Floating Cards) -->
+      <div class="lg:col-span-7">
+        <div class="relative mx-auto max-w-[780px] lg:my-5 lg:mr-0 lg:pb-4">
+          <!-- Primary Device: Laptop displaying authentic Barvato Overview Dashboard -->
+          <div class="hero-device-laptop relative z-10 lg:w-[86%] xl:w-[87%]">
+            <div class="hero-device-hover">
+              <!-- Laptop Screen Lid -->
+              <div class="hero-device-shell overflow-hidden rounded-t-lg border border-charcoal-muted bg-charcoal p-2 shadow-modal sm:p-2.5">
+                <!-- Top Bezel Camera & App Window Bar -->
+                <div class="mb-1.5 flex items-center justify-between gap-2 px-2 py-0.5 text-[10px] text-ivory/75">
+                  <div class="flex w-10 items-center gap-1.5" aria-hidden="true">
+                    <span class="h-2 w-2 rounded-full bg-stone-muted/40"></span>
+                    <span class="h-2 w-2 rounded-full bg-stone-muted/40"></span>
+                    <span class="h-2 w-2 rounded-full bg-stone-muted/40"></span>
+                  </div>
+                  <div class="flex items-center gap-1.5 truncate">
+                    <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-forest-soft/60" aria-hidden="true"></span>
+                    <span class="truncate font-semibold tracking-wider text-ivory/80 uppercase">
+                      <span class="hidden sm:inline">BARVATO DESKTOP — </span>DASHBOARD HARIAN
+                    </span>
+                  </div>
+                  <div class="w-10 shrink-0" aria-hidden="true"></div>
+                </div>
+
+                <!-- Laptop Screen Viewport -->
+                <div class="overflow-hidden rounded-xs bg-ivory">
+                  <div class="group relative block w-full">
+                    <img
+                      src={hero.heroImage.src}
+                      alt={hero.heroImage.alt}
+                      width={hero.heroImage.width}
+                      height={hero.heroImage.height}
+                      loading="eager"
+                      fetchpriority="high"
+                      decoding="async"
+                      class="block h-auto w-full object-contain transition-[opacity,filter] duration-200 group-hover:opacity-95 group-hover:brightness-[1.02]"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Laptop Base / Hinge Deck -->
+              <div class="relative mx-[-1.5%] h-3 rounded-b-lg border-x border-b border-charcoal-muted bg-gradient-to-b from-charcoal-light to-charcoal shadow-card sm:h-3.5" aria-hidden="true">
+                <div class="mx-auto h-1 w-16 rounded-b-xs bg-stone-muted/35 sm:w-20"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Device: Smartphone displaying authentic mobile responsive application -->
+          <div class="hero-device-phone relative z-20 mt-7 flex flex-col items-center sm:mt-8 lg:absolute lg:right-0 lg:-bottom-3 lg:mt-0 lg:block lg:w-[27.5%] xl:w-[28.5%] lg:max-w-[222px]">
+            <div class="mb-2.5 text-center lg:hidden">
+              <span class="inline-flex items-center gap-1.5 rounded-full border border-stone bg-ivory-light px-3 py-1 text-[11px] font-semibold text-charcoal">
+                <span class="h-1.5 w-1.5 rounded-full bg-forest" aria-hidden="true"></span>
+                Tampilan HP — Antrean &amp; Booking Live
+              </span>
+            </div>
+
+            <div class="hero-device-hover w-[228px] sm:w-[248px] lg:w-full">
+              <div class="hero-device-shell overflow-hidden rounded-[22px] border-2 border-charcoal-muted bg-charcoal p-1.5 shadow-modal sm:p-2">
+                <!-- Phone Speaker Bar -->
+                <div class="mb-1.5 flex items-center justify-center gap-1.5" aria-hidden="true">
+                  <span class="h-1 w-9 rounded-full bg-charcoal-muted"></span>
+                  <span class="h-1 w-1 rounded-full bg-charcoal-muted"></span>
+                </div>
+
+                <!-- Phone Screen Viewport -->
+                <div class="overflow-hidden rounded-[15px] bg-ivory">
+                  <div class="group relative block w-full">
+                    <img
+                      src={hero.heroMobileImage.src}
+                      alt={hero.heroMobileImage.alt}
+                      width={hero.heroMobileImage.width}
+                      height={hero.heroMobileImage.height}
+                      loading="eager"
+                      decoding="async"
+                      class="block h-auto w-full object-contain transition-[opacity,filter] duration-200 group-hover:opacity-95 group-hover:brightness-[1.02]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Cards (Strictly 2 cards, illustrative examples only, positioned outside active UI content) -->
+          <div
+            class="hero-float-card pointer-events-none absolute -top-9 left-3 z-20 xl:left-5"
+            style="--d: 880ms"
+            aria-hidden="true"
+          >
+            <div class="flex items-center gap-3 rounded-sm border border-stone bg-ivory-light px-3.5 py-2 shadow-card" style="--bob: 0s">
+              <div>
+                <span class="block text-[9px] font-bold tracking-widest text-muted-text uppercase">
+                  Antrean aktif
+                </span>
+                <strong class="block font-serif text-lg leading-tight font-normal text-charcoal xl:text-xl">
+                  3 menunggu
+                </strong>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full bg-forest-soft px-2 py-0.5 text-[9px] font-semibold text-forest">
+                <span class="h-1.5 w-1.5 rounded-full bg-forest"></span>Contoh ilustrasi
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="hero-float-card pointer-events-none absolute -bottom-7 left-4 z-20 xl:left-8"
+            style="--d: 1020ms"
+            aria-hidden="true"
+          >
+            <div class="flex items-center gap-3 rounded-sm border border-stone bg-ivory-light px-3.5 py-2 shadow-card" style="--bob: -3.2s">
+              <div>
+                <span class="block text-[9px] font-bold tracking-widest text-muted-text uppercase">
+                  Booking hari ini
+                </span>
+                <strong class="block font-serif text-lg leading-tight font-normal text-charcoal xl:text-xl">
+                  10 jadwal
+                </strong>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full bg-amber-soft px-2 py-0.5 text-[9px] font-semibold text-amber-dark">
+                <span class="h-1.5 w-1.5 rounded-full bg-amber"></span>Contoh ilustrasi
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three Operational Pillars (Factual, non-numerical) -->
+    <div class="mt-14 grid grid-cols-1 gap-6 border-t border-stone pt-9 md:grid-cols-3 lg:mt-18 lg:gap-8 lg:pt-10">
+      {
+        hero.pillars.map((pillar, idx) => (
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center gap-2.5">
+              <span class="font-serif text-sm font-bold text-copper">
+                0{idx + 1}
+              </span>
+              <h2 class="m-0 text-sm font-bold text-charcoal">
+                {pillar.label}
+              </h2>
+            </div>
+            <p class="m-0 pl-6 text-xs leading-relaxed text-muted-text">
+              {pillar.detail}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Pause continuous hero motion while the hero is offscreen (progressive enhancement only).
+  const hero = document.getElementById("hero-section");
+  if (hero && "IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => {
+      hero.classList.toggle("hero-paused", !entry.isIntersecting);
+    }).observe(hero);
+  }
+</script>
